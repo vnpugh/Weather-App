@@ -1,14 +1,25 @@
 <section>
-    <h2>What's the Weather Where You're at?</h2>
-    <input [(ngModel)]="zip" type="text" placeholder="Zip Code here"/>
-    <input (click)="findWeather(zip)" type="submit" value="Search"/>
+    <h2 class="weather-heading">What's the Weather Where You're at?<span class="sun">&#x2600;</span><span class="cloud">&#x2601;</span><span class="snowflake">&#x2744;</span></h2>
+    <h3>Enter A Zip Code to Get the Weather Forecast</h3>
+    <input (keyup)="findWeather(zip)" [(ngModel)]="zip" type="text" placeholder="Zip Code here"/>
 </section>
+
+<!-- <h3>Enter A Zip Code to Get the Weather Forecast</h3>
+    <input [(ngModel)]="zip" type="text" placeholder="Zip Code here"/>
+    <input (click)="findWeather(zip)" type="submit" value="Search"/> 
+</section>  -->
 
 <section *ngIf="weather">
     <h3>Here's the weather in {{weather.name}}</h3>
+    <p>Current Temperature: {{weather.main.temp}}</p>
+    <p>High: {{weather.main.temp_max}}</p>
+    <p>Low: {{weather.main.temp_min}}</p>
+    <p>Humidity: {{weather.main.humidity}}</p>
     <p>Currently {{weather.weather[0].description}}</p>
-    <p>There's a high of {{weather.main.temp_max}}</p>
+    <p>Wind Speed: {{weather.wind.speed}}</p>
 </section>
+
+  
 
 
 

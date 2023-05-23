@@ -1,30 +1,36 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
+import { Component, OnInit } from '@angular/core';
+// import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SearchService } from './search.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
 
   zip: string = '';
   weather: any;
+  // create the observable
+  searchSubject = new Subject<string>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private searchService: SearchService) { }
 
-
-  findWeather(zip: string){
-    this.http.get(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=052f26926ae9784c2d677ca7bc5dec98&&units=imperial`)
-    .subscribe(response => {
-      console.log(response)
-      this.weather = response
-    })
-  
-  
+  findWeather(zip: string) {
+    // we are publishing something inside searchSubject
+    this.searchSubject.next(zip);
   }
-  
 
-}
+  ngOnInit(): void {
+    this.searchSubject
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe(zip => {
+        this.searchService.createAPIObservable(zip)
+        .subscribe(response => this.weather = response);
+          })
+      }
+  }
+
 

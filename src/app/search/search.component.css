@@ -1,0 +1,16 @@
+.weather-heading {
+    color: #333;
+  }
+  
+  .weather-heading .sun {
+    color: yellow;
+  }
+  
+  .weather-heading .cloud {
+    color: gray;
+  }
+  
+  .weather-heading .snowflake {
+    color: lightblue;
+  }
+  
